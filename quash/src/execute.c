@@ -8,7 +8,7 @@
  */
 
 #include "execute.h"
-
+#include "deque.h"
 #include <stdio.h>
 
 #include "quash.h"
@@ -19,10 +19,16 @@
  */
 #define IMPLEMENT_ME()                                                  \
   fprintf(stderr, "IMPLEMENT ME: %s(line %d): %s()\n", __FILE__, __LINE__, __FUNCTION__)
-IMPLEMENT_DEQUE_STRUCT(Pid_Q, pids);
-IMPLEMENT_DEQUE(Pid_Q, pids);
-PROTOTYPE_DEQUE(Pid_Q, pids);
+IMPLEMENT_DEQUE_STRUCT(Pid_Q, pid_t);
+IMPLEMENT_DEQUE(Pid_Q, pid_t);
+PROTOTYPE_DEQUE(Pid_Q, pid_t);
 //Pid_Q Pids;
+typedef struct jobs{
+  Pid_Q pids;//name
+  int jobId;
+  char* cmd;
+} jobs;
+
 IMPLEMENT_DEQUE_STRUCT(Job_Q, jobs);
 IMPLEMENT_DEQUE(Job_Q, jobs);
 PROTOTYPE_DEQUE(Job_Q, jobs);
@@ -133,11 +139,18 @@ void run_echo(EchoCommand cmd) {
   char** str = cmd.args;
 
   // TODO: Remove warning silencers
-  (void) str; // Silence unused variable warning
+  //(void) str; // Silence unused variable warning
 
   // TODO: Implement echo
-  IMPLEMENT_ME();
+  //IMPLEMENT_ME();
 
+  while (cmd.args == null)
+  {
+    printf(cmd.args);
+    str++;
+  }
+    printf("/n");
+  
   // Flush the buffer before returning
   fflush(stdout);
 }
