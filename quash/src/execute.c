@@ -19,7 +19,18 @@
  */
 #define IMPLEMENT_ME()                                                  \
   fprintf(stderr, "IMPLEMENT ME: %s(line %d): %s()\n", __FILE__, __LINE__, __FUNCTION__)
-
+IMPLEMENT_DEQUE_STRUCT(Pid_Q, pids);
+IMPLEMENT_DEQUE(Pid_Q, pids);
+PROTOTYPE_DEQUE(Pid_Q, pids);
+//Pid_Q Pids;
+IMPLEMENT_DEQUE_STRUCT(Job_Q, jobs);
+IMPLEMENT_DEQUE(Job_Q, jobs);
+PROTOTYPE_DEQUE(Job_Q, jobs);
+//Pid_Q Pids;
+//IMPLEMENT_DEQUE_STRUCT(Job_Q, job_t);
+//IMPLEMENT_DEQUE(Job_Q, job_t);
+//Job_Q Job;
+//job_queue jobs;
 /***************************************************************************
  * Interface Functions
  ***************************************************************************/
@@ -28,12 +39,14 @@
 char* get_current_directory(bool* should_free) {
   // TODO: Get the current working directory. This will fix the prompt path.
   // HINT: This should be pretty simple
-  IMPLEMENT_ME();
+  //IMPLEMENT_ME();
 
   // Change this to true if necessary
-  *should_free = false;
-
-  return "get_current_directory()";
+  *should_free = true;
+	char *pwd;
+	//pwd = getcwd(NULL, 0);
+	pwd = get_current_dir_name();
+  return(pwd);
 }
 
 // Returns the value of an environment variable env_var
@@ -42,12 +55,10 @@ const char* lookup_env(const char* env_var) {
   // to interpret variables from the command line and display the prompt
   // correctly
   // HINT: This should be pretty simple
-  IMPLEMENT_ME();
+  //IMPLEMENT_ME();
 
   // TODO: Remove warning silencers
-  (void) env_var; // Silence unused variable warning
-
-  return "???";
+  return getenv(env_var);
 }
 
 // Check the status of background jobs
@@ -55,8 +66,21 @@ void check_jobs_bg_status() {
   // TODO: Check on the statuses of all processes belonging to all background
   // jobs. This function should remove jobs from the jobs queue once all
   // processes belonging to a job have completed.
-  IMPLEMENT_ME();
+  //IMPLEMENT_ME();
+  //for(int i = 0; i < length_job_queue(Job_Q); i++)
+  //{
+    //Job_Q tempjob = pop_front_job_queue(Job);
+    //tempjob.Pids
+    //for(int j = 0; j< length_pid_queue(tempjob.pids); j++)
+  //{
+      //int status;
+      //if(waitpid(tempjob.pids ,&status ,WNOHANG ) == 0)
+      //{
+        //push_back_pid_queue();
+      //}
+    //}
 
+  //}
   // TODO: Once jobs are implemented, uncomment and fill the following line
   // print_job_bg_complete(job_id, pid, cmd);
 }
@@ -305,6 +329,7 @@ void create_process(CommandHolder holder) {
   // TODO: Setup pipes, redirects, and new process
   IMPLEMENT_ME();
 
+
   //parent_run_command(holder.cmd); // This should be done in the parent branch of
                                   // a fork
   //child_run_command(holder.cmd); // This should be done in the child branch of a fork
@@ -324,7 +349,6 @@ void run_script(CommandHolder* holders) {
   }
 
   CommandType type;
-
   // Run all commands in the `holder` array
   for (int i = 0; (type = get_command_holder_type(holders[i])) != EOC; ++i)
     create_process(holders[i]);
